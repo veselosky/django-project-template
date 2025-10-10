@@ -10,7 +10,7 @@ jobs:
     uses: ./.github/workflows/test.yml
 
   create_release:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: run_tests
     env:
       GH_TOKEN: ${{ github.token }}

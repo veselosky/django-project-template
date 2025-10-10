@@ -2,7 +2,7 @@ exclude: '^docs/|/migrations/|devcontainer.json'
 default_stages: [pre-commit]
 
 default_language_version:
-  python: python3.10
+  python: python3.12
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -55,18 +55,20 @@ repos:
           "trove-classifiers",
         ]
 
-  - repo: local
-    hooks:
-      - id: check-migrations
-        name: Check for ungenerated migrations
-        language: system
-        pass_filenames: false
-        entry: python manage.py makemigrations --no-input --dry-run --check
-      - id: validate-templates
-        name: Validate Django template syntax
-        language: system
-        pass_filenames: false
-        entry: python manage.py validate_templates
+# Uncomment these local hooks once you have installed your project dependencies
+# Note: These require your project to be set up with Django installed
+#  - repo: local
+#    hooks:
+#      - id: check-migrations
+#        name: Check for ungenerated migrations
+#        language: system
+#        pass_filenames: false
+#        entry: python manage.py makemigrations --no-input --dry-run --check
+#      - id: validate-templates
+#        name: Validate Django template syntax
+#        language: system
+#        pass_filenames: false
+#        entry: python manage.py validate_templates
 
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:
