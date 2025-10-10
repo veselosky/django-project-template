@@ -17,14 +17,17 @@ After creating your project, set up your development environment:
 
 1. Install [uv](https://docs.astral.sh/uv/):
    ```bash
+   # On macOS/Linux:
    curl -LsSf https://astral.sh/uv/install.sh | sh
+   # Or with pip:
+   pip install uv
    ```
 
 2. Create a virtual environment and install dependencies:
    ```bash
    uv venv
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   uv pip install -e ".[dev]"
+   uv pip install -r pyproject.toml --extra dev
    ```
 
 3. Copy `example.env` to `.env` and configure your environment variables.
@@ -161,7 +164,7 @@ To add a new dependency:
 
 2. Install the updated dependencies:
    ```bash
-   uv pip install -e ".[dev]"
+   uv pip install -r pyproject.toml --extra dev
    ```
 
 ### Updating Dependencies
@@ -169,7 +172,7 @@ To add a new dependency:
 To update all dependencies to their latest compatible versions:
 
 ```bash
-uv pip install --upgrade -e ".[dev]"
+uv pip install --upgrade -r pyproject.toml --extra dev
 ```
 
 To update a specific package:
@@ -183,7 +186,5 @@ uv pip install --upgrade django
 For production, install only the core dependencies:
 
 ```bash
-uv pip install -e .
+uv pip install -r pyproject.toml
 ```
-
-Or use uv to create a production lockfile and install from it for reproducible deployments.

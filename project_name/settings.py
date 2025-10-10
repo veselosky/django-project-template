@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 See also https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 """
+
 from pathlib import Path
 
 import environ
