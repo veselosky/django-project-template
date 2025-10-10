@@ -1,0 +1,55 @@
+[project]
+name = "django-project-template"
+version = "5.2.0"
+description = "A Django 5.2 project template"
+requires-python = ">=3.10"
+dependencies = [
+    "django>=5.2,<6.0",
+    "django-environ>=0.11.0",
+    "django-extensions>=3.2.3",
+    "django-rich>=1.10.0",
+    "docutils>=0.21",
+    "pillow>=10.4.0",
+    "rich>=13.8.0",
+    "granian>=1.6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "coverage>=7.6.0",
+    "django-debug-toolbar>=4.4.0",
+    "ipython>=8.27.0",
+    "ruff>=0.6.0",
+    "tox>=4.18.0",
+    "pre-commit>=3.8.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+    "B008",  # do not perform function calls in argument defaults
+]
+
+[tool.ruff.lint.per-file-ignores]
+"*/migrations/*" = ["E501"]
+"manage.py" = ["E402"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["project_name"]
