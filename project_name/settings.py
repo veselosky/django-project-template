@@ -157,8 +157,9 @@ DB_DIR.mkdir(parents=True, exist_ok=True)
 SQLITE_DB = DB_DIR / "db.sqlite3"
 DATABASES = {"default": env.db("DATABASE_URL", default=f"sqlite:///{SQLITE_DB}")}
 
-# Optimal SQLite configuration
+# Optimal SQLite configuration (adjust mmap_size and cache_size according to your available RAM)
 # https://docs.djangoproject.com/en/5.2/ref/databases/#sqlite-notes
+# https://alldjango.com/articles/definitive-guide-to-using-django-sqlite-in-production
 if DATABASES["default"]["ENGINE"] == "django.db.backends.sqlite3":
     # Merge optimal defaults with any existing options
     sqlite_defaults = {
@@ -167,7 +168,8 @@ if DATABASES["default"]["ENGINE"] == "django.db.backends.sqlite3":
         "init_command": """
             PRAGMA journal_mode=WAL;
             PRAGMA synchronous=NORMAL;
-            PRAGMA mmap_size=134217728;
+            PRAGMA temp_store=MEMORY;
+            PRAGMA mmap_size=268435456;
             PRAGMA journal_size_limit=27103364;
             PRAGMA cache_size=2000;
         """,
