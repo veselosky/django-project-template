@@ -125,10 +125,10 @@ DATA_DIR = Path(env("DATA_DIR", default=BASE_DIR.joinpath("var")))
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 STATIC_URL = "/static/"
-STATIC_ROOT = DATA_DIR / "static"
+STATIC_ROOT = DATA_DIR / "www" / "static"
 STATIC_ROOT.mkdir(parents=True, exist_ok=True)
 MEDIA_URL = "/media/"
-MEDIA_ROOT = DATA_DIR / "media"
+MEDIA_ROOT = DATA_DIR / "www" / "media"
 MEDIA_ROOT.mkdir(parents=True, exist_ok=True)
 
 # ManifestStaticFilesStorage is recommended in production, to prevent outdated
