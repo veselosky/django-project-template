@@ -7,22 +7,21 @@ dependencies = [
     "django>=5.2,<6.0",
     "django-environ>=0.11.0",
     "django-extensions>=3.2.3",
-    "django-rich>=1.10.0",
     "docutils>=0.21",
     "pillow>=10.4.0",
     "rich>=13.8.0",
     "granian>=1.6.0",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
-    "coverage>=7.6.0",
-    "django-debug-toolbar>=4.4.0",
-    "ipython>=8.27.0",
-    "ruff>=0.6.0",
-    "tox>=4.18.0",
-    "pre-commit>=3.8.0",
-    "djlint>=1.36.0",
+    "coverage>=7.10.7",
+    "django-debug-toolbar>=6.0.0",
+    "djlint>=1.36.4",
+    "ipython>=8.37.0",
+    "pre-commit>=4.3.0",
+    "ruff>=0.14.0",
+    "tox>=4.31.0",
 ]
 
 [tool.ruff]
