@@ -200,6 +200,138 @@ if find_spec("django_celery_beat") is not None:
     CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
     INSTALLED_APPS.append("django_celery_beat")
 
+#######################################################################################
+# SECTION: LOGGING CONFIGURATION
+#######################################################################################
+# A logging configuration suitable for production.
+LOG_DIR = env("LOG_DIR", default=DATA_DIR / "logs")
+LOG_DIR.mkdir(parents=True, exist_ok=True)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,  # Keeps Django's default loggers and handlers
+    "formatters": {
+        "detailed": {
+            "format": "{asctime} [{levelname}] {name}.{module}:{lineno} - {message}",
+            "style": r"{",
+        },
+    },
+    "handlers": {
+        "file": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOG_DIR / "django.log",
+            "maxBytes": 1024 * 1024 * 1024,  # 1 GB
+            "backupCount": 5,
+        },
+        # A separate log for errors, to be monitored more closely.
+        "errorlog": {
+            "level": "ERROR",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOG_DIR / "error.log",
+            "maxBytes": 1024 * 1024 * 100,  # 100 MB
+            "backupCount": 5,
+            "formatter": "detailed",
+        },
+        # Django's console handler logs nothing if DEBUG is False, so we redeclare it.
+        # This allows Docker/Kubernetes to capture logs from the console in prod.
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "detailed",
+        },
+    },
+    "loggers": {
+        # Django declares the "django" logger, but sends output only to console.
+        "django": {
+            "handlers": ["file", "console", "errorlog"],
+            "level": "INFO",
+            "propagate": False,  # Prevent duplicate logging
+        },
+        # "django.server" is effectively the access log. Django's default sends
+        # it only to console.
+        "django.server": {
+            "handlers": ["file", "console", "errorlog"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        # Log messages from your own project at INFO level.
+        PROJECT: {
+            "handlers": ["file", "console", "errorlog"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        # Third party libraries can be noisy, so only capture warnings/errors.
+        "": {
+            "handlers": ["file", "console", "errorlog"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+    },
+}
+# A separate config for local development, which includes rich logging.
+DEBUG_LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,  # Keeps Django's default loggers and handlers
+    "formatters": {
+        "detailed": {
+            "format": "{asctime} [{levelname}] {name}.{module}:{lineno} - {message}",
+            "style": r"{",
+        },
+        "rich": {
+            "datefmt": "[%X]",
+        },
+    },
+    "handlers": {
+        # In dev, log to a file for debugging, rotate daily for a fresh start.
+        "file": {
+            "level": "INFO",
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": LOG_DIR / "django.log",
+            "when": "midnight",  # Rotate logs daily at midnight
+            "interval": 1,  # Every 1 day
+            "backupCount": 7,  # Keep last 7 days of logs
+            "encoding": "utf-8",
+            "formatter": "detailed",
+        },
+        # Beautiful and useful console output with rich
+        # https://www.willmcgugan.com/blog/tech/post/richer-django-logging/
+        "console": {
+            "level": "DEBUG",
+            "class": "rich.logging.RichHandler",
+            "formatter": "rich",
+        },
+    },
+    "loggers": {
+        # Django declares the "django" logger, but sends output only to console.
+        "django": {
+            "handlers": ["file", "console"],
+            "level": "INFO",
+            "propagate": False,  # Prevent duplicate logging
+        },
+        # "django.server" is effectively the access log. Django's default sends
+        # it only to console.
+        "django.server": {
+            "handlers": ["file", "console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        # Log messages from your own project at DEBUG level.
+        PROJECT: {
+            "handlers": ["file", "console"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        # Third party libraries can be noisy, adjust accordingly.
+        "": {
+            "handlers": ["file", "console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
+}
+if DEBUG:
+    LOGGING = DEBUG_LOGGING
 
 #######################################################################################
 # SECTION 2: DEVELOPMENT: If running in a dev environment, loosen restrictions
@@ -220,19 +352,3 @@ if DEBUG:
             "127.0.0.1",
         ]
         # See also urls.py for debug_toolbar urls
-
-    # Use rich logging for pretty console logs
-    # https://www.willmcgugan.com/blog/tech/post/richer-django-logging/
-    LOGGING = {
-        "version": 1,
-        "disable_existing_loggers": False,
-        "formatters": {"rich": {"datefmt": "[%X]"}},
-        "handlers": {
-            "console": {
-                "class": "rich.logging.RichHandler",
-                "formatter": "rich",
-                "level": "DEBUG",
-            }
-        },
-        "loggers": {"django": {"handlers": ["console"]}},
-    }
