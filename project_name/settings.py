@@ -12,6 +12,7 @@ See also https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 """
 
+from importlib.util import find_spec
 from pathlib import Path
 
 import environ
@@ -149,7 +150,8 @@ DATABASES = {"default": env.db("DATABASE_URL", default=f"sqlite:///{SQLITE_DB}")
 # Optimal SQLite configuration
 # https://docs.djangoproject.com/en/5.2/ref/databases/#sqlite-notes
 if DATABASES["default"]["ENGINE"] == "django.db.backends.sqlite3":
-    DATABASES["default"]["OPTIONS"] = {
+    # Merge optimal defaults with any existing options
+    sqlite_defaults = {
         "transaction_mode": "IMMEDIATE",
         "timeout": 5,  # seconds
         "init_command": """
@@ -160,6 +162,8 @@ if DATABASES["default"]["ENGINE"] == "django.db.backends.sqlite3":
             PRAGMA cache_size=2000;
         """,
     }
+    existing_options = DATABASES["default"].get("OPTIONS", {})
+    DATABASES["default"]["OPTIONS"] = {**sqlite_defaults, **existing_options}
 
 CACHES = {"default": env.cache("CACHE_URL", default="locmemcache://")}
 
@@ -179,13 +183,10 @@ CELERY_TASK_EAGER_PROPAGATES = env("CELERY_TASK_EAGER_PROPAGATES", default=True)
 CELERY_BROKER_URL = env("CELERY_BROKER_URL", default="redis://localhost:6379/1")
 CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND", default="")
 CELERY_TIME_ZONE = TIME_ZONE
-try:
-    import django_celery_beat
 
+if find_spec("django_celery_beat") is not None:
     CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
     INSTALLED_APPS.append("django_celery_beat")
-except ImportError:
-    pass
 
 
 #######################################################################################
@@ -203,18 +204,13 @@ if DEBUG:
     # the DEBUG section. See README for details.
     SITE_ID = 1
 
-    try:
-        import debug_toolbar
-
+    if find_spec("debug_toolbar") is not None:
         INSTALLED_APPS.append("debug_toolbar")
         MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
         INTERNAL_IPS = [
             "127.0.0.1",
         ]
         # See also urls.py for debug_toolbar urls
-    except ImportError:
-        # Dev tools are optional
-        pass
 
     # Use rich logging for pretty console logs
     # https://www.willmcgugan.com/blog/tech/post/richer-django-logging/

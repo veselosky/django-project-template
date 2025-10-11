@@ -27,6 +27,12 @@ repos:
       - id: django-upgrade
         args: ['--target-version', '5.2']
 
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v4.1.0
+    hooks:
+      - id: pyupgrade
+        args: [--py310-plus]
+
   # Run the Ruff linter.
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.6.0
