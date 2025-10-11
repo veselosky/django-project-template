@@ -206,9 +206,6 @@ if find_spec("django_celery_beat") is not None:
 # and add debugging tools.
 #######################################################################################
 
-# Rich test output
-TEST_RUNNER = "django_rich.test.RichRunner"
-
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
     # So you don't have to add localhost and/or 127.0.0.1 to your Sites table:
