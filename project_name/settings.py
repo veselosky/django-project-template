@@ -223,6 +223,7 @@ LOGGING = {
             "filename": LOG_DIR / "django.log",
             "maxBytes": 1024 * 1024 * 1024,  # 1 GB
             "backupCount": 5,
+            "formatter": "detailed",
         },
         # A separate log for errors, to be monitored more closely.
         "errorlog": {
