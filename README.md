@@ -1,4 +1,4 @@
-# Control-Escape Project Template for Django 5.2
+# Control-Escape Project Template for Django 6.0
 
 Replace this README file with your own project's info.
 
@@ -68,7 +68,8 @@ dependency management file.
 This template includes a `pyproject.toml` for dependency management, with the following
 dependencies:
 
-- **Django 5.2.x** – This template is specifically designed for Django 5.2.
+- **Django 6.0.x** – This template is specifically designed for Django 6.0. For other versions, use
+  the appropriate version of this template from its corresponding branch or tag (e.g. django5.2).
 - **Pillow** – For ImageField support.
 - **docutils** – For Django Admin Docs support (which is enabled by default in this
   template)
@@ -102,7 +103,7 @@ dependencies:
 This template includes configurations for continuous integration and release automation
 using Github Actions. It implements a testing matrix using
 [tox](https://tox.wiki/en/latest/) allowing you to test against multiple versions of
-Python (3.10–3.14). Out of the box, the test automation checks for common
+Python (3.12–3.14). Out of the box, the test automation checks for common
 errors, missing database migrations, and invalid template syntax.
 
 The testing matrix also includes informational tests against Django 6.0, but these tests
