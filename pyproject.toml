@@ -1,33 +1,33 @@
 [project]
 name = "django-project-template"
-version = "5.2.0"
-description = "A Django 5.2 project template"
-requires-python = ">=3.10"
+version = "6.0.0"
+description = "A Django 6.0 project template"
+requires-python = ">=3.12"
 dependencies = [
-    "django>=5.2,<6.0",
-    "django-environ>=0.11.0",
-    "django-extensions>=3.2.3",
-    "docutils>=0.21",
-    "pillow>=10.4.0",
-    "rich>=13.8.0",
-    "granian>=1.6.0",
+    "django>=6.0,<7.0",
+    "django-environ>=0.12.0",
+    "django-extensions>=4.1",
+    "docutils>=0.22.4",
+    "pillow>=12.1.0",
+    "rich>=14.2.0",
+    "granian>=2.6.0",
 ]
 
 [dependency-groups]
 dev = [
-    "coverage>=7.10.7",
-    "django-debug-toolbar>=6.0.0",
+    "coverage>=7.13.1",
+    "django-debug-toolbar>=6.1.0",
     "djlint>=1.36.4",
     "ipython>=8.37.0",
-    "pre-commit>=4.3.0",
-    "ruff>=0.14.0",
-    "tox>=4.31.0",
+    "pre-commit>=4.5.1",
+    "ruff>=0.14.10",
+    "tox>=4.33.0",
     "tox-uv>=1.29.0",
 ]
 
 [tool.ruff]
 line-length = 88
-target-version = "py310"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = [
@@ -52,4 +52,5 @@ ignore = [
 "*/celery.py" = ["T201"]  # Allow print in debug tasks
 
 [tool.ruff.lint.isort]
+# Replace "project_name" with the actual project package name
 known-first-party = ["project_name"]
