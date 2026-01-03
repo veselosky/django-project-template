@@ -81,8 +81,6 @@ dependencies:
   dependency. It provides many useful management commands, and the base models also have
   good utility. We use its `validate_templates` command to check template syntax, and
   its `shell_plus` is also useful.
-- **django-rich** – Provides enhanced output from the test runner, as well as a base for
-  management commands that gives you rich terminal output.
 - **granian** – A fast ASGI/WSGI server for production deployment. Replaces gunicorn for
   better performance and modern async support.
 
@@ -104,15 +102,11 @@ dependencies:
 This template includes configurations for continuous integration and release automation
 using Github Actions. It implements a testing matrix using
 [tox](https://tox.wiki/en/latest/) allowing you to test against multiple versions of
-Python (3.10, 3.11, 3.12, 3.13). Out of the box, the test automation checks for common
+Python (3.10–3.14). Out of the box, the test automation checks for common
 errors, missing database migrations, and invalid template syntax.
 
-The testing matrix also includes informational tests against pre-release versions of
-Django (6.0) and Python (3.14), but these tests are allowed to fail without breaking
-the build.
-
-Support for enhanced test output has been added via
-[django-rich](https://pypi.org/project/django-rich/).
+The testing matrix also includes informational tests against Django 6.0, but these tests
+are not run by default and are allowed to fail without breaking the build.
 
 ### Editors
 
@@ -159,26 +153,22 @@ management. Dependencies are defined in `pyproject.toml`.
 
 To add a new dependency:
 
-1. Add it to the `dependencies` list in `pyproject.toml` (for production dependencies)
-   or `[project.optional-dependencies.dev]` (for development dependencies).
-
-2. Install the updated dependencies:
-   ```bash
-   uv pip install -r pyproject.toml --extra dev
-   ```
+```bash
+uv add <package-name>
+```
 
 ### Updating Dependencies
 
-To update all dependencies to their latest compatible versions:
+To update all dependencies in your environment to their latest compatible versions:
 
 ```bash
-uv pip install --upgrade -r pyproject.toml --extra dev
+uv sync --upgrade
 ```
 
 To update a specific package:
 
 ```bash
-uv pip install --upgrade django
+uv sync --upgrade-package django
 ```
 
 ### Production Deployment
@@ -186,5 +176,5 @@ uv pip install --upgrade django
 For production, install only the core dependencies:
 
 ```bash
-uv pip install -r pyproject.toml
+uv sync --locked
 ```
