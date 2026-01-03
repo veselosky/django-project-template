@@ -1,4 +1,4 @@
-# Mindvessel Project Template for Django 5.2
+# Control-Escape Project Template for Django 5.2
 
 Replace this README file with your own project's info.
 
