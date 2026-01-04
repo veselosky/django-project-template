@@ -25,21 +25,19 @@ After creating your project, set up your development environment:
 
 2. Create a virtual environment and install dependencies:
    ```bash
-   uv venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   uv pip install -r pyproject.toml --extra dev
+   uv sync
    ```
 
 3. Copy `example.env` to `.env` and configure your environment variables.
 
 4. Run migrations:
    ```bash
-   python manage.py migrate
+   uv run python manage.py migrate
    ```
 
 5. (Optional) Install pre-commit hooks:
    ```bash
-   pre-commit install
+   uv run pre-commit install
    ```
 
 ## Why to use it
