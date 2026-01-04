@@ -106,9 +106,6 @@ using Github Actions. It implements a testing matrix using
 Python (3.12–3.14). Out of the box, the test automation checks for common
 errors, missing database migrations, and invalid template syntax.
 
-The testing matrix also includes informational tests against Django 6.0, but these tests
-are not run by default and are allowed to fail without breaking the build.
-
 ### Editors
 
 This template includes some extra configuration for users of Visual Studio Code, because
