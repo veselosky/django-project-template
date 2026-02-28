@@ -7,7 +7,7 @@ Replace this README file with your own project's info.
 To use this repository as a project template for Django, use the following command to
 create your Django project, replacing PROJECT_NAME with your own:
 
-  django-admin startproject --template https://github.com/veselosky/django-project-template/archive/refs/heads/main.zip -x .git PROJECT_NAME
+    django-admin startproject --template https://github.com/veselosky/django-project-template/archive/refs/heads/main.zip -x .git PROJECT_NAME
 
 OR simply create a new repository
 [using this repository as a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template),
