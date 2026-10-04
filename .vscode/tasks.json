@@ -6,7 +6,7 @@
     {
       "label": "Django Shell",
       "type": "shell",
-      "command": "${command:python.interpreterPath} manage.py shell_plus",
+      "command": "${command:python.interpreterPath} manage.py shell",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -15,7 +15,7 @@
     {
       "label": "Upgrade Requirements",
       "type": "shell",
-      "command": "${command:python.interpreterPath} manage.py pipsync --upgrade",
+      "command": "uv sync --all-extras --upgrade && uv run uv-bump",
       "options": {
         "cwd": "${workspaceFolder}"
       },

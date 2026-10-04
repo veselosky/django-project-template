@@ -10,19 +10,19 @@ dependencies = [
     "docutils>=0.23",
     "pillow>=12.3.0",
     "rich>=15.0.0",
-    "granian>=2.8.2",
+    "granian>=2.8.4",
 ]
 
 [dependency-groups]
 dev = [
-    "coverage>=7.16.0",
+    "coverage>=7.16.2",
     "django-debug-toolbar>=8.0.0",
-    "djlint>=1.46.1",
+    "djlint>=1.46.4",
     "ipython>=9.17.1",
     "pre-commit>=4.6.2",
-    "ruff>=0.16.7",
-    "tox>=4.61.4",
-    "tox-uv>=1.36.0",
+    "ruff>=0.16.10",
+    "tox>=4.64.8",
+    "tox-uv>=1.36.1",
     "uv-bump>=0.6.0",
 ]
 
